@@ -20,56 +20,60 @@ public class GameV2Should {
 
     @Test
 	public void run_as_same_as_game_legacy() {
-        Game aGame = new Game();
-
-        aGame.add("Chet");
-        aGame.add("Pat");
-        aGame.add("Sue");
 
         Random rand = new Random(RANDOM_SEED);
 
-        boolean notAWinner;
+
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (PrintStream printStream = new PrintStream(byteArrayOutputStream, true, "UTF-8")) {
             System.setOut(printStream);
-            do {
-                aGame.roll(rand.nextInt(5) + 1);
+            for (int i = 0; i < 10000; i++) {
+                Game aGame = new Game();
+                aGame.add("Chet");
+                aGame.add("Pat");
+                aGame.add("Sue");
+                boolean notAWinner;
+                do {
+                    aGame.roll(rand.nextInt(5) + 1);
 
-                if (rand.nextInt(9) == 7) {
-                    notAWinner = aGame.wrongAnswer();
-                } else {
-                    notAWinner = aGame.wasCorrectlyAnswered();
-                }
+                    if (rand.nextInt(9) == 7) {
+                        notAWinner = aGame.wrongAnswer();
+                    } else {
+                        notAWinner = aGame.wasCorrectlyAnswered();
+                    }
 
-            } while (notAWinner);
+                } while (notAWinner);
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         List<String> oldData = Arrays.asList(new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8).split("\r\n"));
-
-
-        GameV2 gameV2 = new GameV2();
-
-        gameV2.add("Chet");
-        gameV2.add("Pat");
-        gameV2.add("Sue");
 
         rand = new Random(RANDOM_SEED);
 
         byteArrayOutputStream = new ByteArrayOutputStream();
         try (PrintStream printStream = new PrintStream(byteArrayOutputStream, true, "UTF-8")) {
             System.setOut(printStream);
-            do {
-                gameV2.roll(rand.nextInt(5) + 1);
 
-                if (rand.nextInt(9) == 7) {
-                    notAWinner = gameV2.wrongAnswer();
-                } else {
-                    notAWinner = gameV2.wasCorrectlyAnswered();
-                }
+            for (int i = 0; i < 10000; i++) {
+                GameV2 gameV2 = new GameV2();
 
-            } while (notAWinner);
+                gameV2.add("Chet");
+                gameV2.add("Pat");
+                gameV2.add("Sue");
+                boolean notAWinner;
+                do {
+                    gameV2.roll(rand.nextInt(5) + 1);
+
+                    if (rand.nextInt(9) == 7) {
+                        notAWinner = gameV2.wrongAnswer();
+                    } else {
+                        notAWinner = gameV2.wasCorrectlyAnswered();
+                    }
+
+                } while (notAWinner);
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
